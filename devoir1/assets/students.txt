@@ -1,0 +1,15 @@
+1;Omar;20;Licence
+2;Toufik;22;Master
+3;Zoubir;21;Licence
+4;Amine;23;Doctorat
+5;Yassine;20;Master
+6;Karim;18;Licence
+7;Sara;17;Licence
+8;Mehdi;19;Licence
+9;Nadia;18;Licence
+10;Rachid;19;Licence
+11;Fatima;17;Licence
+12;Hamza;24;Doctorat
+13;Leila;21;Master
+14;Sofiane;25;Doctorat
+15;Amira;18;Licence
