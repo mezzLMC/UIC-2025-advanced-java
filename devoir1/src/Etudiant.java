@@ -10,5 +10,10 @@ public class Etudiant extends Personne {
     public String getNiveau() {
         return niveau;
     }
-    
+
+	@Override
+	public String toString() {
+		return "Etudiant n°" + id +" - " + nom + ", age:" + age + ", niveau " + niveau;
+	}
+
 }

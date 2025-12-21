@@ -17,4 +17,8 @@ public class Personne {
     public int getAge() {
         return age;
     }
+
+	public int getId() {
+		return id;
+	}
 }
