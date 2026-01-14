@@ -11,6 +11,8 @@ CREATE TABLE user (
 );
 
 INSERT INTO user (nom, email) VALUES 
-    ('Taha Raihane', 'taha.raihane@student.uic.ac.ma');
+    ('Mohamed Mazouz', 'mohamed.mazouz@student.uic.ac.ma'),
+    ('Antonin Campi', 'antonin.campi@student.uic.ac.ma'),
+    ('Mathis Deruywe', 'mathis.deruywe@student.uic.ac.ma');
 
 SELECT * FROM user;
