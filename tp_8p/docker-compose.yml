@@ -1,0 +1,65 @@
+version: '3.8'
+
+services:
+  maven-build:
+    image: maven:3.8-openjdk-8
+    container_name: demo_maven_build
+    working_dir: /app
+    volumes:
+      - .:/app
+      - maven_repo:/root/.m2
+    command: mvn clean package -DskipTests
+    networks:
+      - app_network
+
+  mysql:
+    image: mysql:8.0
+    container_name: demo_db_mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: demo_user
+      MYSQL_PASSWORD: demo_password
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
+    command: --default-authentication-plugin=mysql_native_password
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - app_network
+
+  tomcat:
+    image: tomcat:9.0-jdk8
+    container_name: demo_app_tomcat
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+      maven-build:
+        condition: service_completed_successfully
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./target/user-crud-app.war:/usr/local/tomcat/webapps/user-crud-app.war:ro
+    environment:
+      JAVA_OPTS: "-Djava.security.egd=file:/dev/./urandom"
+      DB_HOST: mysql
+    networks:
+      - app_network
+
+volumes:
+  mysql_data:
+    driver: local
+  maven_repo:
+    driver: local
+
+networks:
+  app_network:
+    driver: bridge
